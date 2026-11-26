@@ -1,4 +1,8 @@
+"use client";
+
+import { LanguageToggle } from "@/components/LanguageToggle";
 import { ThemeToggle } from "@/components/ThemeProvider";
+import { useLocale } from "@/lib/i18n";
 import {
   ArrowRight,
   CalendarDays,
@@ -14,6 +18,8 @@ import Link from "next/link";
 import type React from "react";
 
 export default function HomePage(): React.JSX.Element {
+  const { t } = useLocale();
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-indigo-50/40 dark:from-slate-950 dark:via-slate-950 dark:to-indigo-950/20">
       <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/80 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-950/80">
@@ -32,12 +38,13 @@ export default function HomePage(): React.JSX.Element {
             </div>
           </div>
           <div className="flex items-center gap-2.5">
+            <LanguageToggle />
             <ThemeToggle />
             <Link
               href="/board"
               className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-500"
             >
-              Probar Tablero Demo
+              {t("landing.cta")}
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -48,18 +55,16 @@ export default function HomePage(): React.JSX.Element {
         <section className="mx-auto max-w-3xl text-center">
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50 px-3.5 py-1 text-xs font-semibold text-indigo-700 dark:border-indigo-500/30 dark:bg-indigo-500/10 dark:text-indigo-300">
             <Sparkles className="h-3.5 w-3.5" />
-            Fractional Indexing O(1) · UI Optimista 0ms · 3 Vistas Sincronizadas
+            {t("landing.badge")}
           </div>
           <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl dark:text-white">
-            Convierte objetivos ambiguos en{" "}
+            {t("landing.heroTitlePrefix")}{" "}
             <span className="bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent dark:from-indigo-400 dark:to-cyan-300">
-              flujos Kanban accionables
+              {t("landing.heroTitleHighlight")}
             </span>
           </h1>
           <p className="mt-5 text-base leading-relaxed text-slate-600 sm:text-lg dark:text-slate-300">
-            Arrastra tarjetas sin latencia con rollback automático ante errores
-            de red, alterna entre Kanban, Tabla y Calendario al instante, y
-            descompón objetivos con IA estructurada sin configurar API keys.
+            {t("landing.heroDescription")}
           </p>
 
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -67,14 +72,14 @@ export default function HomePage(): React.JSX.Element {
               href="/board"
               className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-indigo-600/25 transition hover:bg-indigo-500 sm:w-auto"
             >
-              Probar Tablero Demo
+              {t("landing.cta")}
               <ArrowRight className="h-4 w-4" />
             </Link>
             <a
               href="#preview"
               className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-6 py-3.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 sm:w-auto dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
             >
-              Ver arquitectura y capacidades
+              {t("landing.secondaryCta")}
             </a>
           </div>
         </section>
@@ -85,7 +90,7 @@ export default function HomePage(): React.JSX.Element {
               <Zap className="h-5 w-5" />
             </div>
             <h2 className="text-lg font-bold text-slate-900 dark:text-white">
-              Drag & Drop 0ms + Rollback
+              {t("landing.card1Title")}
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
               Posicionamiento fraccional (paso{" "}
@@ -121,7 +126,7 @@ export default function HomePage(): React.JSX.Element {
               <Sparkles className="h-5 w-5" />
             </div>
             <h2 className="text-lg font-bold text-slate-900 dark:text-white">
-              AI Decompose con Zod
+              {t("landing.card2Title")}
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
               Escribe un objetivo como{" "}
@@ -154,7 +159,7 @@ export default function HomePage(): React.JSX.Element {
               <ShieldAlert className="h-5 w-5" />
             </div>
             <h2 className="text-lg font-bold text-slate-900 dark:text-white">
-              Board Insights & 3 Vistas
+              {t("landing.card3Title")}
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
               Diagnostica columnas sobrecargadas, tareas vencidas y cuellos de
@@ -164,15 +169,15 @@ export default function HomePage(): React.JSX.Element {
             <div className="mt-4 grid grid-cols-3 gap-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-center text-xs font-medium text-slate-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300">
               <div className="flex flex-col items-center gap-1 rounded-lg bg-white p-2 shadow-sm dark:bg-slate-900">
                 <Kanban className="h-4 w-4 text-indigo-500" />
-                Kanban
+                {t("landing.viewKanbanShort")}
               </div>
               <div className="flex flex-col items-center gap-1 rounded-lg bg-white p-2 shadow-sm dark:bg-slate-900">
                 <Table2 className="h-4 w-4 text-cyan-500" />
-                Tabla
+                {t("landing.viewTableShort")}
               </div>
               <div className="flex flex-col items-center gap-1 rounded-lg bg-white p-2 shadow-sm dark:bg-slate-900">
                 <CalendarDays className="h-4 w-4 text-emerald-500" />
-                Calendario
+                {t("landing.viewCalendarShort")}
               </div>
             </div>
           </article>

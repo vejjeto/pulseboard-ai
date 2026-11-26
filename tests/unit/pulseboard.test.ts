@@ -27,6 +27,7 @@ import {
 } from "@/lib/board-service";
 import { parseEnv } from "@/lib/env";
 import { computePosition, rebalancePositions } from "@/lib/fractional-index";
+import { translations } from "@/lib/i18n";
 import { signHmacSha256, verifyHmacSha256 } from "@/lib/webhooks";
 import { NextRequest } from "next/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -526,5 +527,18 @@ describe("PulseBoard AI — Core & Integration Suite", () => {
     };
     expect(problem.status).toBe(404);
     expect(problem.requestId).toBe("req-404-check");
+  });
+
+  it("16. maintains full i18n dictionary parity between es and en locales", () => {
+    const esKeys = Object.keys(translations.es).sort();
+    const enKeys = Object.keys(translations.en).sort();
+    expect(enKeys).toEqual(esKeys);
+    expect(esKeys.length).toBeGreaterThan(0);
+
+    for (const key of esKeys) {
+      const k = key as keyof typeof translations.es;
+      expect(translations.es[k].trim().length).toBeGreaterThan(0);
+      expect(translations.en[k].trim().length).toBeGreaterThan(0);
+    }
   });
 });

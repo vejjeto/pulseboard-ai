@@ -1,9 +1,11 @@
 "use client";
 
+import { LanguageToggle } from "@/components/LanguageToggle";
 import { ThemeToggle } from "@/components/ThemeProvider";
 import { HealthBadge } from "@/components/ui/HealthBadge";
 import { PRIORITY_VALUES, type Priority } from "@/db/schema";
 import type { BoardInsightsResult, DecomposeResult } from "@/lib/ai-service";
+import { useLocale } from "@/lib/i18n";
 import type { BoardPayload, ColumnDTO, SubtaskDTO, TaskDTO } from "@/lib/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
@@ -44,6 +46,7 @@ async function fetchBoardPayload(): Promise<BoardPayload> {
 }
 
 export function BoardWorkspace(): React.JSX.Element {
+  const { t } = useLocale();
   const queryClient = useQueryClient();
 
   const {
@@ -692,8 +695,8 @@ export function BoardWorkspace(): React.JSX.Element {
                 {payload.board.title}
               </h1>
               <p className="hidden truncate text-xs text-slate-500 md:block dark:text-slate-400">
-                {payload.tasks.length} tareas · {payload.columns.length}{" "}
-                columnas
+                {payload.tasks.length} {t("board.tasksCount")} ·{" "}
+                {payload.columns.length} {t("board.columnsCount")}
               </p>
             </div>
           </div>
@@ -706,7 +709,7 @@ export function BoardWorkspace(): React.JSX.Element {
               className="inline-flex items-center gap-1.5 rounded-xl bg-violet-600 px-3 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-violet-500"
             >
               <Sparkles className="h-3.5 w-3.5" />
-              Desglosar con IA
+              {t("board.aiDecompose")}
             </button>
             <button
               type="button"
@@ -714,7 +717,7 @@ export function BoardWorkspace(): React.JSX.Element {
               className="inline-flex items-center gap-1.5 rounded-xl border border-cyan-300 bg-cyan-50 px-3 py-2 text-xs font-semibold text-cyan-800 transition hover:bg-cyan-100 dark:border-cyan-500/30 dark:bg-cyan-500/10 dark:text-cyan-300 dark:hover:bg-cyan-500/20"
             >
               <Activity className="h-3.5 w-3.5" />
-              Board Insights IA
+              {t("board.aiInsights")}
             </button>
             <button
               type="button"
@@ -722,8 +725,9 @@ export function BoardWorkspace(): React.JSX.Element {
               className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-indigo-500"
             >
               <Plus className="h-3.5 w-3.5" />
-              Nueva Tarea
+              {t("board.newTask")}
             </button>
+            <LanguageToggle />
             <ThemeToggle />
           </div>
         </div>
@@ -740,7 +744,7 @@ export function BoardWorkspace(): React.JSX.Element {
               }`}
             >
               <Kanban className="h-3.5 w-3.5" />
-              Kanban
+              {t("board.viewKanban")}
             </button>
             <button
               type="button"
@@ -752,7 +756,7 @@ export function BoardWorkspace(): React.JSX.Element {
               }`}
             >
               <Table2 className="h-3.5 w-3.5" />
-              Tabla
+              {t("board.viewTable")}
             </button>
             <button
               type="button"
@@ -764,7 +768,7 @@ export function BoardWorkspace(): React.JSX.Element {
               }`}
             >
               <CalendarDays className="h-3.5 w-3.5" />
-              Calendario
+              {t("board.viewCalendar")}
             </button>
           </div>
 
@@ -774,9 +778,11 @@ export function BoardWorkspace(): React.JSX.Element {
                 <Search className="pointer-events-none absolute left-2.5 top-2 h-3.5 w-3.5 text-slate-400" />
                 <input
                   type="search"
-                  aria-label="Buscar tareas"
+                  aria-label={t("board.searchAria")}
                   placeholder={
-                    semanticMode ? "Búsqueda semántica..." : "Buscar tareas..."
+                    semanticMode
+                      ? t("board.searchSemanticPlaceholder")
+                      : t("board.searchPlaceholder")
                   }
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -786,7 +792,7 @@ export function BoardWorkspace(): React.JSX.Element {
               <button
                 type="button"
                 onClick={() => setSemanticMode((prev) => !prev)}
-                title="Alternar búsqueda semántica vectorial"
+                title={t("board.semanticToggleTitle")}
                 className={`inline-flex items-center gap-1 rounded-xl border px-2.5 py-1.5 text-[11px] font-semibold transition ${
                   semanticMode
                     ? "border-violet-300 bg-violet-50 text-violet-700 dark:border-violet-500/40 dark:bg-violet-500/15 dark:text-violet-300"
@@ -799,12 +805,12 @@ export function BoardWorkspace(): React.JSX.Element {
             </div>
 
             <select
-              aria-label="Filtrar por prioridad"
+              aria-label={t("board.priorityFilterAria")}
               value={priorityFilter}
               onChange={(e) => setPriorityFilter(e.target.value)}
               className="rounded-xl border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium dark:border-slate-800 dark:bg-slate-900 dark:text-white"
             >
-              <option value="ALL">Todas las prioridades</option>
+              <option value="ALL">{t("board.allPriorities")}</option>
               {PRIORITY_VALUES.map((p) => (
                 <option key={p} value={p}>
                   {p}
@@ -819,7 +825,7 @@ export function BoardWorkspace(): React.JSX.Element {
                 onChange={(e) => setSimulateError(e.target.checked)}
                 className="h-3.5 w-3.5 rounded accent-rose-600"
               />
-              <span>Simular error de red</span>
+              <span>{t("board.simulateError")}</span>
             </label>
 
             <button
@@ -831,7 +837,7 @@ export function BoardWorkspace(): React.JSX.Element {
               <RotateCcw
                 className={`h-3.5 w-3.5 ${resetDemoMutation.isPending ? "animate-spin" : ""}`}
               />
-              Reiniciar Datos Demo
+              {t("board.resetDemo")}
             </button>
           </div>
         </div>
@@ -843,7 +849,7 @@ export function BoardWorkspace(): React.JSX.Element {
           Object.keys(semanticScores).length > 0 && (
             <div className="mb-4 flex flex-wrap items-center gap-2 rounded-xl border border-violet-200 bg-violet-50/70 px-3 py-2 text-xs dark:border-violet-500/30 dark:bg-violet-500/10">
               <span className="font-semibold text-violet-700 dark:text-violet-300">
-                Coincidencias semánticas (
+                {t("board.semanticMatches")} (
                 {semanticEngine ?? "Demo Local Vector"}):
               </span>
               {filteredTasks

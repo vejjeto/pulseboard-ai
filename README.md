@@ -4,6 +4,10 @@
 
 **PulseBoard AI** es un workspace Kanban e inteligencia de proyectos **standalone** construido con Next.js 15 (React Compiler habilitado), Drizzle ORM, búsqueda semántica lista para `pgvector`, TanStack Table v8 y flujos de IA validados con Zod. Ofrece *drag-and-drop* optimista en `0 ms` con rollback automático ante fallos de red, *Fractional Indexing* $O(1)$, detección en vivo de tareas duplicadas y observabilidad RFC 7807 sin requerir API keys externas en modo demo local (`/demo`).
 
+## Qué hace este proyecto
+
+**PulseBoard AI** es un tablero de gestión de proyectos con vistas de Kanban (*arrastrar y soltar*), tabla y calendario. Además de organizar tareas por columnas y prioridades, detecta automáticamente si una tarea nueva se parece a otra ya existente, permite buscar por significado (búsqueda semántica) y ayuda a desglosar objetivos en subtareas con IA (o con un motor determinista local en modo demo).
+
 ---
 
 ## Arquitectura
